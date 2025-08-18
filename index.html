@@ -3,13 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>👤 Profile </title>
+  <title>👤 Profile - Giao diện nâng cấp</title>
+  
+  <!-- Thêm Google Font (Poppins) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Thêm thư viện icon Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
     :root {
-      --primary-color: #3498db;
-      --bg-color: #f4f6f8;
-      --text-color: #2c3e50;
-      --light: #ecf0f1;
+      /* Bảng màu mới */
+      --primary-color: #4a90e2;
+      --secondary-color: #50e3c2;
+      --bg-color: #f7f9fc;
+      --text-color: #333;
+      --light-gray: #eef2f7;
+      --card-bg: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.1);
     }
 
     * {
@@ -19,107 +32,190 @@
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
+      /* Sử dụng font mới */
+      font-family: 'Poppins', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       padding: 2rem;
       display: flex;
       justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .container {
-      background: #fff;
+      background: var(--card-bg);
       max-width: 900px;
       width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-radius: 15px;
+      /* Đổ bóng mềm mại hơn */
+      box-shadow: 0 10px 30px var(--shadow-color);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-      background: var(--primary-color);
+      /* Nền gradient hiện đại */
+      background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
       color: #fff;
-      padding: 1.5rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
+      position: relative;
+    }
+    
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        margin-bottom: 1rem;
+        object-fit: cover;
     }
 
     header h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
+    }
+
+    header p {
+      opacity: 0.9;
     }
 
     nav {
       display: flex;
-      background: #ddd;
+      background: #fff;
+      border-bottom: 1px solid var(--light-gray);
     }
 
     nav button {
       flex: 1;
-      padding: 1rem;
-      background: var(--light);
+      padding: 1.2rem;
+      background: transparent;
       border: none;
       cursor: pointer;
       font-size: 1rem;
-      transition: background 0.3s;
+      font-weight: 600;
+      color: #888;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav button::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+    
+    nav button:hover {
+        color: var(--primary-color);
     }
 
     nav button.active {
-      background: #fff;
-      font-weight: bold;
-      border-bottom: 3px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    nav button.active::after {
+        width: 60%;
+    }
+
+    .content-wrapper {
+        padding: 2rem;
+        flex: 1;
     }
 
     .tab-content {
       display: none;
-      padding: 1.5rem;
-      animation: fadeIn 0.3s ease-in-out;
+      animation: fadeIn 0.5s ease-in-out;
     }
 
     .tab-content.active {
       display: block;
     }
-
-    .info-box {
-      background: var(--light);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
+    
+    /* Thiết kế lại info-box và các danh sách */
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    li {
+        display: flex;
+        align-items: center;
+        background: var(--light-gray);
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    }
+    
+    li i {
+        margin-right: 1rem;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        width: 25px;
+        text-align: center;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--light-gray);
+        padding-bottom: 0.5rem;
+    }
+    
+    .contact-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
     }
 
-    .label {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    a {
-      color: var(--primary-color);
-      text-decoration: none;
-    }
-
-    a:hover {
+    .contact-link:hover {
       text-decoration: underline;
     }
-
+    
     footer {
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
       color: #999;
-      background: #fafafa;
+      background: var(--light-gray);
+      border-top: 1px solid #e0e0e0;
     }
 
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
     @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
       nav {
-        flex-direction: column;
+        flex-wrap: wrap;
       }
 
       nav button {
-        border-bottom: 1px solid #ccc;
+        flex-basis: 50%;
+        font-size: 0.9rem;
+      }
+      .content-wrapper {
+        padding: 1.5rem;
       }
     }
   </style>
@@ -128,83 +224,89 @@
 
   <div class="container">
     <header>
-      <h1>👤 Hồ sơ cá nhân</h1>
+      <!-- Thay đổi link ảnh của bạn vào đây -->
+      <img src="https://i.pravatar.cc/150" alt="Avatar" class="avatar">
+      <h1>[Tên của bạn]</h1>
       <p id="time">Đang cập nhật thời gian...</p>
     </header>
 
     <nav>
-      <button class="tab-btn active" data-tab="intro">Giới thiệu</button>
-      <button class="tab-btn" data-tab="example">Ví dụ</button>
-      <button class="tab-btn" data-tab="skills">Sở trường</button>
-      <button class="tab-btn" data-tab="work">Công việc</button>
-      <button class="tab-btn" data-tab="contact">Liên hệ</button>
+      <button class="tab-btn active" data-tab="intro">
+        <i class="fas fa-user-circle"></i> Giới thiệu
+      </button>
+      <button class="tab-btn" data-tab="skills">
+        <i class="fas fa-bolt"></i> Kỹ năng
+      </button>
+      <button class="tab-btn" data-tab="work">
+        <i class="fas fa-briefcase"></i> Công việc
+      </button>
+      <button class="tab-btn" data-tab="contact">
+        <i class="fas fa-envelope"></i> Liên hệ
+      </button>
     </nav>
 
-    <div id="intro" class="tab-content active">
-      <div class="info-box">
-        <p>Chào bạn! Mình là <strong>[Tên của bạn]</strong>, đam mê phát triển phần mềm và công nghệ web. Mình thích xây dựng các ứng dụng gọn gàng, dễ dùng và thân thiện với người dùng.</p>
-      </div>
-      <div class="info-box">
-        <div class="label">👁️ Số lượt truy cập:</div>
-        <div id="visits">Đang tải...</div>
-      </div>
-      <div class="info-box">
-        <div class="label">🌐 IP của bạn:</div>
-        <div id="ip">Đang tải...</div>
-      </div>
+    <div class="content-wrapper">
+        <div id="intro" class="tab-content active">
+          <h3>👋 Chào bạn!</h3>
+          <ul>
+              <li><i class="fas fa-info-circle"></i><div>Mình là <strong>[Tên của bạn]</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo.</div></li>
+              <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">Đang tải...</span></div></li>
+              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">Đang tải...</span></div></li>
+          </ul>
+        </div>
+    
+        <div id="skills" class="tab-content">
+          <h3>🔧 Kỹ năng & Công nghệ</h3>
+          <ul>
+              <li><i class="fab fa-html5"></i>HTML5, CSS3, JavaScript (ES6+)</li>
+              <li><i class="fab fa-react"></i>Framework: ReactJS, VueJS</li>
+              <li><i class="fas fa-server"></i>Backend: Node.js, REST APIs</li>
+              <li><i class="fas fa-database"></i>Cơ sở dữ liệu: Firebase, MongoDB</li>
+              <li><i class="fas fa-paint-brush"></i>Thiết kế: Figma, UI/UX cơ bản</li>
+          </ul>
+        </div>
+    
+        <div id="work" class="tab-content">
+          <h3>🏢 Kinh nghiệm làm việc</h3>
+          <ul>
+            <li>
+                <i class="fas fa-building"></i>
+                <div>
+                    <strong>Frontend Developer</strong> tại <strong>[Tên công ty]</strong>
+                    <p style="font-size:0.9rem; color:#666;">Phát triển và duy trì giao diện người dùng cho các dự án web.</p>
+                </div>
+            </li>
+            <li>
+                <i class="fas fa-project-diagram"></i>
+                <div>
+                    <strong>Dự án nổi bật:</strong>
+                    <p style="font-size:0.9rem; color:#666;">- Website bán hàng, Dashboard quản lý, Ứng dụng To-Do...</p>
+                </div>
+            </li>
+          </ul>
+        </div>
+    
+        <div id="contact" class="tab-content">
+          <h3>🤙 Kết nối với mình</h3>
+          <ul>
+            <li><i class="fas fa-at"></i><a href="mailto:you@example.com" class="contact-link">you@example.com</a></li>
+            <li><i class="fab fa-linkedin"></i><a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">LinkedIn Profile</a></li>
+            <li><i class="fab fa-github"></i><a href="https://github.com/yourusername" target="_blank" class="contact-link">GitHub Profile</a></li>
+          </ul>
+        </div>
     </div>
 
-    <div id="example" class="tab-content">
-      <div class="info-box">
-        <p>Dưới đây là một vài ví dụ về các dự án mình từng thực hiện:</p>
-        <ul>
-          <li>🌐 Website bán hàng mini (HTML, CSS, JS)</li>
-          <li>📱 Ứng dụng To-Do List (React)</li>
-          <li>📊 Dashboard thống kê nội bộ (VueJS + Firebase)</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="skills" class="tab-content">
-      <div class="info-box">
-        <p><strong>Kỹ năng chính:</strong></p>
-        <ul>
-          <li>🔧 HTML, CSS, JavaScript (ES6+)</li>
-          <li>⚛️ ReactJS, VueJS</li>
-          <li>🗃️ Firebase, REST APIs</li>
-          <li>🎨 UI/UX cơ bản, thiết kế Flat & Responsive</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="work" class="tab-content">
-      <div class="info-box">
-        <p>Hiện tại mình đang làm tại <strong>[Tên công ty]</strong> với vị trí <strong>Frontend Developer</strong>.</p>
-        <p>Công việc chính:</p>
-        <ul>
-          <li>Phát triển giao diện người dùng</li>
-          <li>Kết nối API và tối ưu hiệu năng</li>
-          <li>Hỗ trợ team thiết kế & backend</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="contact" class="tab-content">
-      <div class="info-box">
-        <p><strong>Email:</strong> <a href="mailto:you@example.com">you@example.com</a></p>
-        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></p>
-        <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
-      </div>
-    </div>
-
-    <footer>© 2025 [Tên của bạn] • Hồ sơ cá nhân</footer>
+    <footer>© 2025 [Tên của bạn] • All rights reserved.</footer>
   </div>
 
   <script>
     // Cập nhật thời gian mỗi giây
     function updateTime() {
-      const now = new Date();
-      document.getElementById("time").textContent = now.toLocaleString("vi-VN");
+      const timeEl = document.getElementById("time");
+      if(timeEl){
+        const now = new Date();
+        timeEl.textContent = now.toLocaleString("vi-VN", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      }
     }
     setInterval(updateTime, 1000);
     updateTime();
@@ -214,16 +316,19 @@
     let count = localStorage.getItem(visitsKey) || 0;
     count++;
     localStorage.setItem(visitsKey, count);
-    document.getElementById("visits").textContent = count;
-
+    const visitsEl = document.getElementById("visits");
+    if(visitsEl) visitsEl.textContent = count;
+    
     // Lấy địa chỉ IP người dùng
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
-        document.getElementById("ip").textContent = data.ip;
+        const ipEl = document.getElementById("ip");
+        if(ipEl) ipEl.textContent = data.ip;
       })
       .catch(() => {
-        document.getElementById("ip").textContent = "Không thể lấy IP.";
+        const ipEl = document.getElementById("ip");
+        if(ipEl) ipEl.textContent = "Không thể lấy IP.";
       });
 
     // Xử lý chuyển tab
@@ -232,13 +337,16 @@
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
+        // Tắt active của tất cả
         tabButtons.forEach(b => b.classList.remove("active"));
         tabContents.forEach(c => c.classList.remove("active"));
+        
+        // Bật active cho button và content được chọn
         btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
+        const activeTab = document.getElementById(btn.dataset.tab);
+        if(activeTab) activeTab.classList.add("active");
       });
     });
   </script>
 </body>
 </html>
-
