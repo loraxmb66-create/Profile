@@ -3,36 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>👤 Profile - Giao diện nâng cấp</title>
+  <title>👤 Profile - Chỉnh sửa thông tin</title>
   
-  <!-- Thêm Google Font (Poppins) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Thêm thư viện icon Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     :root {
-      /* Bảng màu mới */
       --primary-color: #4a90e2;
       --secondary-color: #50e3c2;
+      --admin-color: #f39c12;
       --bg-color: #f7f9fc;
       --text-color: #333;
       --light-gray: #eef2f7;
       --card-bg: #ffffff;
       --shadow-color: rgba(0, 0, 0, 0.1);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      /* Sử dụng font mới */
       font-family: 'Poppins', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -42,312 +32,277 @@
       align-items: center;
       min-height: 100vh;
     }
-
     .container {
       background: var(--card-bg);
       max-width: 900px;
       width: 100%;
       border-radius: 15px;
-      /* Đổ bóng mềm mại hơn */
       box-shadow: 0 10px 30px var(--shadow-color);
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-
     header {
-      /* Nền gradient hiện đại */
       background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: #fff;
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      position: relative;
+      color: #fff; padding: 2.5rem 1.5rem; text-align: center; position: relative;
     }
-    
     .avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 4px solid #fff;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        margin-bottom: 1rem;
-        object-fit: cover;
+      width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-bottom: 1rem; object-fit: cover;
     }
-
-    header h1 {
-      font-size: 2.2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      opacity: 0.9;
-    }
-
-    nav {
-      display: flex;
-      background: #fff;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
+    header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    header p { opacity: 0.9; }
+    nav { display: flex; background: #fff; border-bottom: 1px solid var(--light-gray); overflow-x: auto;}
     nav button {
-      flex: 1;
-      padding: 1.2rem;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #888;
-      transition: all 0.3s ease;
-      position: relative;
+      flex: 1; padding: 1.2rem; background: transparent; border: none; cursor: pointer;
+      font-size: 1rem; font-weight: 600; color: #888; transition: all 0.3s ease; position: relative;
+      white-space: nowrap; min-width: 120px;
     }
-
     nav button::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 3px;
-        background: var(--primary-color);
-        transition: width 0.3s ease;
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 3px; background: var(--primary-color); transition: width 0.3s ease;
     }
-    
-    nav button:hover {
-        color: var(--primary-color);
-    }
+    nav button:hover { color: var(--primary-color); }
+    nav button.active { color: var(--primary-color); }
+    nav button.active::after { width: 60%; }
+    nav button.admin-btn.active { color: var(--admin-color); }
+    nav button.admin-btn.active::after { background: var(--admin-color); }
 
-    nav button.active {
-      color: var(--primary-color);
-    }
-
-    nav button.active::after {
-        width: 60%;
-    }
-
-    .content-wrapper {
-        padding: 2rem;
-        flex: 1;
-    }
-
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-    
-    /* Thiết kế lại info-box và các danh sách */
-    ul {
-        list-style: none;
-        padding-left: 0;
-    }
-    
+    .content-wrapper { padding: 2rem; flex: 1; }
+    .tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
+    .tab-content.active { display: block; }
+    ul { list-style: none; padding-left: 0; }
     li {
-        display: flex;
-        align-items: center;
-        background: var(--light-gray);
-        padding: 0.8rem 1.2rem;
-        border-radius: 8px;
-        margin-bottom: 0.8rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex; align-items: center; background: var(--light-gray); padding: 0.8rem 1.2rem;
+      border-radius: 8px; margin-bottom: 0.8rem;
     }
-    
-    li:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-    }
-    
-    li i {
-        margin-right: 1rem;
-        color: var(--primary-color);
-        font-size: 1.2rem;
-        width: 25px;
-        text-align: center;
-    }
-    
+    li i { margin-right: 1rem; color: var(--primary-color); font-size: 1.2rem; width: 25px; text-align: center; }
     h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        color: var(--primary-color);
-        border-bottom: 2px solid var(--light-gray);
-        padding-bottom: 0.5rem;
+      font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--primary-color);
+      border-bottom: 2px solid var(--light-gray); padding-bottom: 0.5rem;
     }
+    #admin h3 { color: var(--admin-color); }
+    .contact-link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+    .contact-link:hover { text-decoration: underline; }
+    footer { text-align: center; padding: 1rem; font-size: 0.9rem; color: #999; background: var(--light-gray); }
     
-    .contact-link {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 600;
+    #admin .form-group { margin-bottom: 1.2rem; }
+    #admin label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #555; }
+    #admin input, #admin textarea {
+      width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 8px; font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
-
-    .contact-link:hover {
-      text-decoration: underline;
+    #admin input:focus, #admin textarea:focus {
+        border-color: var(--admin-color);
+        box-shadow: 0 0 5px rgba(243, 156, 18, 0.3);
+        outline: none;
     }
+    #admin textarea { min-height: 100px; resize: vertical; }
+    #save-btn {
+      background-color: var(--admin-color); color: white; padding: 0.8rem 1.5rem;
+      border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background-color 0.3s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    #save-btn:hover { background-color: #d35400; }
+    #save-status { margin-top: 1rem; color: #27ae60; font-weight: bold; text-align: center;}
     
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #999;
-      background: var(--light-gray);
-      border-top: 1px solid #e0e0e0;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-      nav {
-        flex-wrap: wrap;
-      }
-
-      nav button {
-        flex-basis: 50%;
-        font-size: 0.9rem;
-      }
-      .content-wrapper {
-        padding: 1.5rem;
-      }
-    }
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+    @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; padding: 1rem 0.5rem; } .content-wrapper { padding: 1.5rem; } }
   </style>
 </head>
 <body>
 
   <div class="container">
     <header>
-      <!-- Thay đổi link ảnh của bạn vào đây -->
-      <img src="https://avatars.githubusercontent.com/u/56058923?v=4" alt="Avatar" class="avatar">
-      <h1>[Tên của bạn]</h1>
+      <img src="https://i.pravatar.cc/150" alt="Avatar" class="avatar" id="profile-avatar">
+      <h1 id="profile-name">[Tên của bạn]</h1>
       <p id="time">Đang cập nhật thời gian...</p>
     </header>
 
     <nav>
-      <button class="tab-btn active" data-tab="intro">
-        <i class="fas fa-user-circle"></i> Giới thiệu
-      </button>
-      <button class="tab-btn" data-tab="skills">
-        <i class="fas fa-bolt"></i> Kỹ năng
-      </button>
-      <button class="tab-btn" data-tab="work">
-        <i class="fas fa-briefcase"></i> Công việc
-      </button>
-      <button class="tab-btn" data-tab="contact">
-        <i class="fas fa-envelope"></i> Liên hệ
-      </button>
+      <button class="tab-btn active" data-tab="intro"><i class="fas fa-user-circle"></i> Giới thiệu</button>
+      <button class="tab-btn" data-tab="skills"><i class="fas fa-bolt"></i> Kỹ năng</button>
+      <button class="tab-btn" data-tab="work"><i class="fas fa-briefcase"></i> Công việc</button>
+      <button class="tab-btn" data-tab="contact"><i class="fas fa-envelope"></i> Liên hệ</button>
+      <button class="tab-btn admin-btn" data-tab="admin"><i class="fas fa-user-shield"></i> Admin</button>
     </nav>
 
     <div class="content-wrapper">
         <div id="intro" class="tab-content active">
           <h3>👋 Chào bạn!</h3>
           <ul>
-              <li><i class="fas fa-info-circle"></i><div>Mình là <strong>[Tên của bạn]</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo.</div></li>
-              <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">Đang tải...</span></div></li>
-              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">Đang tải...</span></div></li>
+            <li><i class="fas fa-info-circle"></i><div id="profile-intro"></div></li>
+            <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">...</span></div></li>
+            <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">...</span></div></li>
           </ul>
         </div>
     
         <div id="skills" class="tab-content">
           <h3>🔧 Kỹ năng & Công nghệ</h3>
-          <ul>
-              <li><i class="fab fa-html5"></i>HTML5, CSS3, JavaScript (ES6+)</li>
-              <li><i class="fab fa-react"></i>Framework: ReactJS, VueJS</li>
-              <li><i class="fas fa-server"></i>Backend: Node.js, REST APIs</li>
-              <li><i class="fas fa-database"></i>Cơ sở dữ liệu: Firebase, MongoDB</li>
-              <li><i class="fas fa-paint-brush"></i>Thiết kế: Figma, UI/UX cơ bản</li>
-          </ul>
+          <ul id="skills-list"></ul>
         </div>
     
         <div id="work" class="tab-content">
           <h3>🏢 Kinh nghiệm làm việc</h3>
           <ul>
             <li>
-                <i class="fas fa-building"></i>
-                <div>
-                    <strong>Frontend Developer</strong> tại <strong>[Tên công ty]</strong>
-                    <p style="font-size:0.9rem; color:#666;">Phát triển và duy trì giao diện người dùng cho các dự án web.</p>
-                </div>
-            </li>
-            <li>
-                <i class="fas fa-project-diagram"></i>
-                <div>
-                    <strong>Dự án nổi bật:</strong>
-                    <p style="font-size:0.9rem; color:#666;">- Website bán hàng, Dashboard quản lý, Ứng dụng To-Do...</p>
-                </div>
+              <i class="fas fa-building"></i>
+              <div>
+                <strong id="profile-job-title"></strong> tại <strong id="profile-company"></strong>
+                <p id="profile-job-desc" style="font-size:0.9rem; color:#666;"></p>
+              </div>
             </li>
           </ul>
         </div>
     
         <div id="contact" class="tab-content">
           <h3>🤙 Kết nối với mình</h3>
-          <ul>
-            <li><i class="fas fa-at"></i><a href="mailto:you@example.com" class="contact-link">you@example.com</a></li>
-            <li><i class="fab fa-linkedin"></i><a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">LinkedIn Profile</a></li>
-            <li><i class="fab fa-github"></i><a href="https://github.com/yourusername" target="_blank" class="contact-link">GitHub Profile</a></li>
-          </ul>
+          <ul id="contact-list"></ul>
+        </div>
+
+        <div id="admin" class="tab-content">
+            <h3><i class="fas fa-edit"></i> Chỉnh sửa thông tin</h3>
+            <div class="form-group"><label for="admin-name">Họ và Tên</label><input type="text" id="admin-name"></div>
+            <div class="form-group"><label for="admin-avatar">URL Ảnh đại diện</label><input type="text" id="admin-avatar"></div>
+            <div class="form-group"><label for="admin-intro">Lời giới thiệu</label><textarea id="admin-intro"></textarea></div>
+            <div class="form-group"><label for="admin-job-title">Chức vụ</label><input type="text" id="admin-job-title"></div>
+            <div class="form-group"><label for="admin-company">Công ty</label><input type="text" id="admin-company"></div>
+            <div class="form-group"><label for="admin-job-desc">Mô tả công việc</label><textarea id="admin-job-desc"></textarea></div>
+            <div class="form-group"><label for="admin-skills">Kỹ năng (mỗi kỹ năng cách nhau bởi dấu phẩy)</label><input type="text" id="admin-skills"></div>
+            <div class="form-group"><label for="admin-email">Email</label><input type="email" id="admin-email"></div>
+            <div class="form-group"><label for="admin-linkedin">Link LinkedIn</label><input type="url" id="admin-linkedin"></div>
+            <div class="form-group"><label for="admin-github">Link GitHub</label><input type="url" id="admin-github"></div>
+
+            <button id="save-btn"><i class="fas fa-save"></i> Lưu thay đổi</button>
+            <div id="save-status"></div>
         </div>
     </div>
 
-    <footer>© 2025 [Tên của bạn] • All rights reserved.</footer>
+    <footer>© 2025 <span id="footer-name">[Tên của bạn]</span> • All rights reserved.</footer>
   </div>
 
-  <script>
-    // Cập nhật thời gian mỗi giây
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // ---- PHẦN DỮ LIỆU ----
+    const profileDataKey = 'myProfileData';
+    
+    const defaultData = {
+        name: 'Tên Của Bạn',
+        avatar: 'https://i.pravatar.cc/150',
+        intro: 'một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo.',
+        jobTitle: 'Frontend Developer',
+        company: 'Công ty ABC',
+        jobDesc: 'Phát triển và duy trì giao diện người dùng cho các dự án web.',
+        skills: 'HTML,CSS,JavaScript,React,NodeJS,UI/UX',
+        email: 'your.email@example.com',
+        linkedin: 'https://linkedin.com/in/yourprofile',
+        github: 'https://github.com/yourusername'
+    };
+
+    function loadProfile() {
+        let data = JSON.parse(localStorage.getItem(profileDataKey)) || defaultData;
+
+        document.getElementById('profile-name').textContent = data.name;
+        document.getElementById('footer-name').textContent = data.name;
+        document.getElementById('profile-avatar').src = data.avatar;
+        document.getElementById('profile-intro').innerHTML = `Mình là <strong>${data.name}</strong>, ${data.intro}`;
+        
+        document.getElementById('profile-job-title').textContent = data.jobTitle;
+        document.getElementById('profile-company').textContent = data.company;
+        document.getElementById('profile-job-desc').textContent = data.jobDesc;
+
+        // Cập nhật danh sách kỹ năng
+        const skillsList = document.getElementById('skills-list');
+        skillsList.innerHTML = '';
+        const skillIcons = { default: 'fa-code', react: 'fa-react', vue: 'fa-vuejs', html: 'fa-html5', css: 'fa-css3-alt', javascript: 'fa-js-square' };
+        data.skills.split(',').forEach(skill => {
+            const skillName = skill.trim().toLowerCase();
+            const iconClass = Object.keys(skillIcons).find(key => skillName.includes(key)) || 'default';
+            skillsList.innerHTML += `<li><i class="fab ${skillIcons[iconClass]}"></i>${skill.trim()}</li>`;
+        });
+        
+        // Cập nhật danh sách liên hệ
+        const contactList = document.getElementById('contact-list');
+        contactList.innerHTML = `
+            <li><i class="fas fa-at"></i><a href="mailto:${data.email}" class="contact-link">${data.email}</a></li>
+            <li><i class="fab fa-linkedin"></i><a href="${data.linkedin}" target="_blank" class="contact-link">LinkedIn Profile</a></li>
+            <li><i class="fab fa-github"></i><a href="${data.github}" target="_blank" class="contact-link">GitHub Profile</a></li>
+        `;
+    }
+
+    // Tải dữ liệu vào form admin
+    function loadAdminForm() {
+        let data = JSON.parse(localStorage.getItem(profileDataKey)) || defaultData;
+        document.getElementById('admin-name').value = data.name;
+        document.getElementById('admin-avatar').value = data.avatar;
+        document.getElementById('admin-intro').value = data.intro;
+        document.getElementById('admin-job-title').value = data.jobTitle;
+        document.getElementById('admin-company').value = data.company;
+        document.getElementById('admin-job-desc').value = data.jobDesc;
+        document.getElementById('admin-skills').value = data.skills;
+        document.getElementById('admin-email').value = data.email;
+        document.getElementById('admin-linkedin').value = data.linkedin;
+        document.getElementById('admin-github').value = data.github;
+    }
+
+    // Lưu dữ liệu từ form
+    document.getElementById('save-btn').addEventListener('click', () => {
+        const newData = {
+            name: document.getElementById('admin-name').value,
+            avatar: document.getElementById('admin-avatar').value,
+            intro: document.getElementById('admin-intro').value,
+            jobTitle: document.getElementById('admin-job-title').value,
+            company: document.getElementById('admin-company').value,
+            jobDesc: document.getElementById('admin-job-desc').value,
+            skills: document.getElementById('admin-skills').value,
+            email: document.getElementById('admin-email').value,
+            linkedin: document.getElementById('admin-linkedin').value,
+            github: document.getElementById('admin-github').value
+        };
+
+        localStorage.setItem(profileDataKey, JSON.stringify(newData));
+        
+        const saveStatus = document.getElementById('save-status');
+        saveStatus.textContent = 'Đã lưu thành công!';
+        setTimeout(() => { saveStatus.textContent = ''; }, 2000);
+
+        loadProfile(); // Cập nhật lại giao diện
+    });
+
+    // ---- CÁC CHỨC NĂNG KHÁC ----
     function updateTime() {
-      const timeEl = document.getElementById("time");
-      if(timeEl){
-        const now = new Date();
-        timeEl.textContent = now.toLocaleString("vi-VN", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-      }
+        const timeEl = document.getElementById("time");
+        if(timeEl) timeEl.textContent = new Date().toLocaleString("vi-VN", { dateStyle: 'full', timeStyle: 'medium' });
     }
     setInterval(updateTime, 1000);
     updateTime();
 
-    // Đếm số lượt truy cập (localStorage)
     const visitsKey = "visitCount";
-    let count = localStorage.getItem(visitsKey) || 0;
-    count++;
+    let count = parseInt(localStorage.getItem(visitsKey) || 0) + 1;
     localStorage.setItem(visitsKey, count);
-    const visitsEl = document.getElementById("visits");
-    if(visitsEl) visitsEl.textContent = count;
-    
-    // Lấy địa chỉ IP người dùng
+    document.getElementById("visits").textContent = count;
+
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
-      .then(data => {
-        const ipEl = document.getElementById("ip");
-        if(ipEl) ipEl.textContent = data.ip;
-      })
-      .catch(() => {
-        const ipEl = document.getElementById("ip");
-        if(ipEl) ipEl.textContent = "Không thể lấy IP.";
-      });
+      .then(data => { document.getElementById("ip").textContent = data.ip; })
+      .catch(() => { document.getElementById("ip").textContent = "Không thể lấy IP."; });
 
-    // Xử lý chuyển tab
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
-
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        // Tắt active của tất cả
         tabButtons.forEach(b => b.classList.remove("active"));
         tabContents.forEach(c => c.classList.remove("active"));
-        
-        // Bật active cho button và content được chọn
         btn.classList.add("active");
-        const activeTab = document.getElementById(btn.dataset.tab);
-        if(activeTab) activeTab.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
       });
     });
-  </script>
+
+    // --- KHỞI CHẠY LẦN ĐẦU ---
+    loadProfile();
+    loadAdminForm();
+});
+</script>
+
 </body>
 </html>
-
