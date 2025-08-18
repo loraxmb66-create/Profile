@@ -26,10 +26,9 @@
       --border-color: #2c2c2e; --item-bg: #2a2a2a; --shadow-color: rgba(0, 0, 0, 0.2);
       --glass-bg: rgba(30, 30, 30, 0.6); --gradient-start: #434343; --gradient-end: #000000;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
       padding: 2rem; display: flex; justify-content: center; align-items: center; min-height: 100vh;
@@ -39,7 +38,7 @@
     /* ---- 1. Preloader ---- */
     #preloader {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
-        background-color: var(--card-bg); display: flex; justify-content: center; align-items: center;
+        background-color: var(--bg-color); display: flex; justify-content: center; align-items: center;
         transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
     #preloader .loader {
@@ -60,7 +59,7 @@
       position: absolute; top: 20px; right: 20px; background: var(--glass-bg);
       border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%;
       cursor: pointer; display: flex; justify-content: center; align-items: center;
-      font-size: 1rem; color: var(--text-color); backdrop-filter: blur(10px);
+      font-size: 1rem; color: var(--text-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       z-index: 10; transition: all 0.3s ease;
     }
     .theme-toggle:hover { transform: scale(1.1); }
@@ -77,98 +76,84 @@
     header h1 { 
       font-size: 2.2rem; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
       height: 40px; /* Cố định chiều cao để không bị giật khi gõ chữ */
+      min-width: 10px; display: inline-block;
     }
     .typing-cursor { border-right: 3px solid #fff; animation: blink 0.7s step-end infinite; }
     @keyframes blink { from, to { border-color: transparent } 50% { border-color: #fff; } }
-
+    
     /* ---- Navigation ---- */
     nav { 
       display: flex; border-bottom: 1px solid var(--border-color); overflow-x: auto;
-      background: var(--glass-bg); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5;
+      background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 5;
     }
     nav button {
       flex: 1; padding: 1.2rem; background: transparent; border: none; cursor: pointer;
       font-size: 1rem; font-weight: 600; color: var(--sub-text-color); transition: all 0.3s ease; position: relative;
       white-space: nowrap; min-width: 120px;
     }
-    /* ... (CSS nav giữ nguyên) ... */
+    nav button::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 3px; background: var(--primary-color); transition: width 0.3s ease; border-radius: 2px;
+    }
+    nav button:hover { color: var(--primary-color); }
+    nav button.active { color: var(--text-color); font-weight: 700;}
+    nav button.active::after { width: 40%; }
 
     /* ---- Content & Animate on Scroll ---- */
     .content-wrapper { padding: 2.5rem; flex: 1; }
     .tab-content { display: none; animation: fadeIn 0.6s ease; }
     .tab-content.active { display: block; }
     
-    /* Hiệu ứng trượt vào */
     .fade-in-section {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
-    .fade-in-section.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
     
-    h3 {
-      font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--text-color);
-      border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem;
-    }
+    h3 { font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--text-color); border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem;}
     ul { list-style: none; padding-left: 0; }
     li {
       display: flex; align-items: center; background: var(--item-bg); padding: 1rem 1.2rem;
       border-radius: 12px; margin-bottom: 1rem; transition: all 0.3s ease; border: 1px solid var(--border-color);
     }
-    li:hover {
-      transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px var(--shadow-color);
-    }
+    li:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px var(--shadow-color); }
     li i { margin-right: 1.2rem; color: var(--primary-color); font-size: 1.3rem; width: 25px; text-align: center; }
 
     /* ---- 3. Tab "Dự án" ---- */
-    .project-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-    }
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;}
     .project-card {
-        background: var(--item-bg);
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 4px 10px var(--shadow-color);
-        transition: all 0.3s ease;
+      background: var(--item-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);
+      box-shadow: 0 4px 10px var(--shadow-color); transition: all 0.3s ease;
     }
     .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px var(--shadow-color); }
     .project-card img { width: 100%; height: 180px; object-fit: cover; }
     .project-card-content { padding: 1rem; }
     .project-card-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-color);}
+    .project-card-content p { font-size: 0.9rem; color: var(--sub-text-color);}
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
-    .project-tags span { background-color: var(--primary-color); color: #fff; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px;}
+    .project-tags span { background-color: var(--primary-color); opacity: 0.8; color: #fff; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px;}
     .project-links { margin-top: 1rem; }
-    .project-links a { color: var(--primary-color); text-decoration: none; font-weight: 600; margin-right: 1rem; }
+    .project-links a { color: var(--primary-color); text-decoration: none; font-weight: 600; margin-right: 1rem; font-size: 0.9rem;}
     .project-links a:hover { text-decoration: underline; }
 
     /* ---- 5. Nút Sao chép & Tooltip ---- */
     .copy-email-wrapper { position: relative; display: inline-flex; align-items: center; }
-    .copy-btn {
-        background: none; border: none; cursor: pointer; color: var(--sub-text-color); margin-left: 0.5rem;
-    }
+    .copy-btn { background: none; border: none; cursor: pointer; color: var(--sub-text-color); margin-left: 0.5rem; }
     .tooltip {
-        position: absolute; background-color: #333; color: #fff; text-align: center;
-        border-radius: 6px; padding: 5px 10px; z-index: 1; bottom: 125%; left: 50%;
-        margin-left: -40px; opacity: 0; transition: opacity 0.3s; font-size: 0.8rem;
-        pointer-events: none; width: 80px;
+      position: absolute; background-color: #333; color: #fff; text-align: center;
+      border-radius: 6px; padding: 5px 10px; z-index: 1; bottom: 125%; left: 50%;
+      margin-left: -40px; opacity: 0; transition: opacity 0.3s; font-size: 0.8rem;
+      pointer-events: none; width: 80px;
     }
-    .copy-btn:hover .tooltip, .copy-btn.copied .tooltip { opacity: 1; }
+    .copy-btn.copied .tooltip { opacity: 1; }
 
     footer { text-align: center; padding: 1.5rem; font-size: 0.9rem; color: var(--sub-text-color); background: var(--item-bg); }
+    @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; } .content-wrapper { padding: 1.5rem; } .theme-toggle{top:15px; right: 15px;} }
   </style>
 </head>
 <body>
 
-  <!-- 1. Màn hình chờ -->
-  <div id="preloader">
-      <div class="loader"></div>
-  </div>
+  <div id="preloader"><div class="loader"></div></div>
 
   <div class="container">
     
@@ -176,7 +161,6 @@
 
     <header>
       <img src="https://avatars.githubusercontent.com/u/56058923?v=4" alt="Avatar" class="avatar">
-      <!-- 2. Thẻ chứa cho hiệu ứng gõ chữ -->
       <h1><span id="typing-effect"></span><span class="typing-cursor"></span></h1>
       <p id="time">Đang cập nhật thời gian...</p>
     </header>
@@ -184,7 +168,7 @@
     <nav>
       <button class="tab-btn active" data-tab="intro"><i class="fas fa-user-circle"></i> Giới thiệu</button>
       <button class="tab-btn" data-tab="skills"><i class="fas fa-bolt"></i> Kỹ năng</button>
-      <button class="tab-btn" data-tab="projects"><i class="fas fa-project-diagram"></i> Dự án</button> <!-- Đổi tên tab -->
+      <button class="tab-btn" data-tab="projects"><i class="fas fa-project-diagram"></i> Dự án</button>
       <button class="tab-btn" data-tab="contact"><i class="fas fa-envelope"></i> Liên hệ</button>
     </nav>
 
@@ -192,43 +176,62 @@
         <div id="intro" class="tab-content active">
           <div class="fade-in-section">
             <h3>👋 Chào bạn!</h3>
-            <ul>...</ul> <!-- Giữ nguyên nội dung tab Giới thiệu -->
+            <ul>
+              <li>
+                <i class="fas fa-info-circle"></i>
+                <div>Mình là <strong>LORAX</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo, thân thiện với người dùng.</div>
+              </li>
+              <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">...</span></div></li>
+              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">...</span></div></li>
+            </ul>
           </div>
         </div>
     
         <div id="skills" class="tab-content">
           <div class="fade-in-section">
             <h3>🔧 Kỹ năng & Công nghệ</h3>
-            <ul>...</ul> <!-- Giữ nguyên nội dung tab Kỹ năng -->
+            <ul>
+                <li><i class="fab fa-html5"></i>HTML5 & CSS3</li>
+                <li><i class="fab fa-js-square"></i>JavaScript (ES6+)</li>
+                <li><i class="fab fa-react"></i>ReactJS</li>
+                <li><i class="fab fa-node-js"></i>Node.js</li>
+                <li><i class="fas fa-database"></i>Firebase & SQL</li>
+                <li><i class="fas fa-paint-brush"></i>Thiết kế UI/UX (Figma)</li>
+            </ul>
           </div>
         </div>
     
-        <!-- 3. Nội dung cho tab Dự án -->
         <div id="projects" class="tab-content">
           <div class="fade-in-section">
             <h3>🚀 Các dự án nổi bật</h3>
             <div class="project-grid">
-              <!-- Dự án 1 -->
               <div class="project-card">
-                <img src="https://picsum.photos/400/250?random=1" alt="Project Image">
+                <img src="https://cdn.dribbble.com/userupload/3932824/file/original-b960b7c7b4f53518596f7c8282305a2e.png" alt="E-commerce Website">
                 <div class="project-card-content">
                   <h4>Trang Web Bán Hàng</h4>
                   <p>Website thương mại điện tử với giỏ hàng và thanh toán.</p>
                   <div class="project-tags"><span>React</span><span>Node.js</span><span>Stripe</span></div>
-                  <div class="project-links"><a href="#">Live Demo <i class="fas fa-external-link-alt"></i></a> <a href="#">GitHub <i class="fab fa-github"></i></a></div>
+                  <div class="project-links"><a href="#" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a> <a href="#" target="_blank">GitHub <i class="fab fa-github"></i></a></div>
                 </div>
               </div>
-              <!-- Dự án 2 -->
               <div class="project-card">
-                <img src="https://picsum.photos/400/250?random=2" alt="Project Image">
+                <img src="https://i.pinimg.com/originals/95/43/59/954359146142717013e2b26002f5e714.png" alt="Weather App">
                 <div class="project-card-content">
                   <h4>Ứng dụng Thời tiết</h4>
                   <p>App dự báo thời tiết thời gian thực sử dụng API.</p>
-                  <div class="project-tags"><span>Vue.js</span><span>API</span><span>CSS</span></div>
-                  <div class="project-links"><a href="#">Live Demo <i class="fas fa-external-link-alt"></i></a> <a href="#">GitHub <i class="fab fa-github"></i></a></div>
+                  <div class="project-tags"><span>Vue.js</span><span>OpenWeather API</span></div>
+                  <div class="project-links"><a href="#" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a> <a href="#" target="_blank">GitHub <i class="fab fa-github"></i></a></div>
                 </div>
               </div>
-              <!-- Thêm dự án khác ở đây -->
+              <div class="project-card">
+                <img src="https://cdn.dribbble.com/users/6180321/screenshots/16503009/media/3c2a66e0775d7e7e6f8cc50c33a92540.png" alt="Portfolio Site">
+                <div class="project-card-content">
+                  <h4>Portfolio Cá nhân</h4>
+                  <p>Một trang web giới thiệu bản thân và các kỹ năng.</p>
+                  <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                  <div class="project-links"><a href="#" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a> <a href="#" target="_blank">GitHub <i class="fab fa-github"></i></a></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -241,14 +244,13 @@
                 <i class="fas fa-at"></i>
                 <div class="copy-email-wrapper">
                   <a href="mailto:lorax.mb66@gmail.com" class="contact-link">lorax.mb66@gmail.com</a>
-                  <!-- 5. Nút sao chép -->
                   <button class="copy-btn" id="copy-email-btn" title="Sao chép email">
-                    <i class="fas fa-copy"></i>
-                    <span class="tooltip">Sao chép</span>
+                    <i class="fas fa-copy"></i><span class="tooltip">Sao chép</span>
                   </button>
                 </div>
               </li>
-              <!-- ... các liên hệ khác ... -->
+              <li><i class="fab fa-facebook"></i><a href="https://facebook.com" target="_blank" class="contact-link">Facebook</a></li>
+              <li><i class="fab fa-tiktok"></i><a href="https://tiktok.com" target="_blank" class="contact-link">Tiktok</a></li>
             </ul>
           </div>
         </div>
@@ -259,64 +261,99 @@
 
 <script>
 window.addEventListener('load', () => {
-    // 1. Ẩn preloader khi trang đã tải xong
+    // ---- 1. PRELOADER ----
     document.getElementById('preloader').classList.add('hidden');
 
-    // 2. Kích hoạt hiệu ứng gõ chữ
+    // ---- 2. TYPING EFFECT ----
     const typingElement = document.getElementById('typing-effect');
-    const texts = ["I'm LORAX", "I'm a Web Developer", "I love creating things"];
-    let textIndex = 0; let charIndex = 0;
-    
-    function type() {
-        if (charIndex < texts[textIndex].length) {
-            typingElement.textContent += texts[textIndex].charAt(charIndex);
-            charIndex++; setTimeout(type, 100);
-        } else { setTimeout(erase, 1500); }
+    if (typingElement) {
+        const texts = ["I'm LORAX", "I'm a Web Developer", "I love creating things"];
+        let textIndex = 0, charIndex = 0;
+
+        function type() {
+            if (charIndex < texts[textIndex].length) {
+                typingElement.textContent += texts[textIndex].charAt(charIndex);
+                charIndex++; setTimeout(type, 100);
+            } else { setTimeout(erase, 2000); }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typingElement.textContent = texts[textIndex].substring(0, charIndex - 1);
+                charIndex--; setTimeout(erase, 50);
+            } else { textIndex = (textIndex + 1) % texts.length; setTimeout(type, 500); }
+        }
+        type();
     }
-    function erase() {
-        if (charIndex > 0) {
-            typingElement.textContent = texts[textIndex].substring(0, charIndex - 1);
-            charIndex--; setTimeout(erase, 50);
-        } else {
-            textIndex = (textIndex + 1) % texts.length;
-            setTimeout(type, 500);
+    
+    // ---- 3. DARK/LIGHT MODE ----
+    const themeToggle = document.getElementById('theme-toggle'), body = document.body;
+    const themeIcon = themeToggle.querySelector('i');
+    const currentTheme = localStorage.getItem('theme');
+    
+    if (currentTheme) {
+        body.classList.add(currentTheme);
+        if (currentTheme === 'dark-mode') {
+            themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun');
         }
     }
-    type();
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        let theme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+        if (theme === 'dark-mode') {
+            themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon');
+        }
+        localStorage.setItem('theme', theme);
+    });
 
-    // 4. Logic cho Hiệu ứng Xuất hiện khi cuộn
+    // ---- 4. TAB SWITCHING ----
+    const tabButtons = document.querySelectorAll(".tab-btn"), tabContents = document.querySelectorAll(".tab-content");
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        tabContents.forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        const activeTab = document.getElementById(btn.dataset.tab);
+        if (activeTab) activeTab.classList.add("active");
+      });
+    });
+
+    // ---- 5. ANIMATE ON SCROLL ----
     const sections = document.querySelectorAll('.fade-in-section');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
     }, { threshold: 0.1 });
     sections.forEach(section => observer.observe(section));
-
-    // 5. Logic cho nút Sao chép Email
-    const copyBtn = document.getElementById('copy-email-btn');
-    const tooltip = copyBtn.querySelector('.tooltip');
+    
+    // ---- 6. COPY EMAIL BUTTON ----
+    const copyBtn = document.getElementById('copy-email-btn'), tooltip = copyBtn.querySelector('.tooltip');
     copyBtn.addEventListener('click', () => {
-        const email = 'lorax.mb66@gmail.com';
-        navigator.clipboard.writeText(email).then(() => {
-            copyBtn.classList.add('copied');
-            tooltip.textContent = 'Đã sao chép!';
-            setTimeout(() => {
-                copyBtn.classList.remove('copied');
-                tooltip.textContent = 'Sao chép';
-            }, 2000);
+        navigator.clipboard.writeText('lorax.mb66@gmail.com').then(() => {
+            copyBtn.classList.add('copied'); tooltip.textContent = 'Đã chép!';
+            setTimeout(() => { copyBtn.classList.remove('copied'); tooltip.textContent = 'Sao chép'; }, 2000);
         });
     });
 
-    // --- Các chức năng cũ ---
-    const themeToggle = document.getElementById('theme-toggle'); /* ... giữ nguyên logic dark mode ... */
-    const currentTheme = localStorage.getItem('theme');
-    // ...
-    const tabButtons = document.querySelectorAll(".tab-btn"); /* ... giữ nguyên logic chuyển tab ... */
+    // ---- 7. ACCESSORY FUNCTIONS ----
+    const timeEl = document.getElementById("time");
+    if(timeEl) {
+      const updateTime = () => timeEl.textContent = new Date().toLocaleString("vi-VN", { dateStyle: 'full', timeStyle: 'medium' });
+      setInterval(updateTime, 1000); updateTime();
+    }
+    const visitsKey = "visitCount", visitsEl = document.getElementById("visits");
+    if (visitsEl) {
+      let count = (parseInt(localStorage.getItem(visitsKey)) || 0) + 1;
+      localStorage.setItem(visitsKey, count.toString());
+      visitsEl.textContent = count;
+    }
+    const ipEl = document.getElementById("ip");
+    if (ipEl) {
+      fetch("https://api.ipify.org?format=json").then(res => res.json()).then(data => ipEl.textContent = data.ip)
+        .catch(() => ipEl.textContent = "Không thể lấy IP.");
+    }
 });
-// (Toàn bộ logic của script cũ nên được chuyển vào trong event listener 'load' để đảm bảo mọi thứ chạy sau khi trang đã sẵn sàng)
 </script>
 
 </body>
