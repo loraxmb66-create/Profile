@@ -149,6 +149,84 @@
 
     footer { text-align: center; padding: 1.5rem; font-size: 0.9rem; color: var(--sub-text-color); background: var(--item-bg); }
     @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; } .content-wrapper { padding: 1.5rem; } .theme-toggle{top:15px; right: 15px;} }
+	
+	/* === BẮT ĐẦU PHẦN CSS MỚI === */
+
+/* --- Nâng cấp CSS cho Form Liên Hệ --- */
+.form-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    color: var(--sub-text-color);
+}
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.form-group-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--sub-text-color);
+    font-size: 0.9rem;
+}
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+.contact-form button {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.contact-form button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: translateY(-2px);
+}
+/* Responsive cho thiết bị di động */
+@media (max-width: 600px) {
+    .form-group-grid {
+        grid-template-columns: 1fr; /* Xếp chồng lên nhau */
+    }
+}
+/* === KẾT THÚC PHẦN CSS MỚI === */
   </style>
 </head>
 <body>
@@ -170,6 +248,7 @@
       <button class="tab-btn" data-tab="skills"><i class="fas fa-bolt"></i> Kỹ năng</button>
       <button class="tab-btn" data-tab="projects"><i class="fas fa-project-diagram"></i> Dự án</button>
       <button class="tab-btn" data-tab="contact"><i class="fas fa-envelope"></i> Liên hệ</button>
+	  <button class="tab-btn" data-tab="abc"><i class="fa-solid fa-paper-plane"></i> Gửi lời nhắn</button>
     </nav>
 
     <div class="content-wrapper">
@@ -254,6 +333,21 @@
             </ul>
           </div>
         </div>
+		
+		        <div id="abc" class="tab-content">
+       <div class="fade-in-section">
+            <h3>✍️ Gửi lời nhắn</h3>
+            <p style="text-align:center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--sub-text-color);">Có dự án hay muốn hợp tác? Đừng ngần ngại liên hệ với mình!</p>
+            <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+                <input type="hidden" name="access_key" value="119120f8-0b84-4b29-8342-fc8cf0f538e9">
+                <input type="text" name="name" placeholder="Tên của bạn" required>
+                <input type="email" name="email" placeholder="Email của bạn" required>
+                <textarea name="message" rows="5" placeholder="Lời nhắn của bạn..." required></textarea>
+                <button type="submit">Gửi Tin Nhắn <i class="fas fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+		
     </div>
     
     <footer>© 2025 LORAX • All rights reserved.</footer>
@@ -358,3 +452,4 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
+
