@@ -3,27 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>👤 Hồ sơ cá nhân</title>
+  <title>👤 LORAX - Hồ sơ cá nhân</title>
   
-  <!-- Google Font: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
+    /* ---- Bảng màu và Biến CSS ---- */
     :root {
-      --primary-color: #4a90e2;
-      --secondary-color: #50e3c2;
-      --bg-color: #f7f9fc;
-      --text-color: #333;
-      --light-gray: #eef2f7;
+      --primary-color: #007aff;
+      --secondary-color: #34c759;
+      --gradient-start: #6dd5ed;
+      --gradient-end: #2193b0;
+
+      /* Chế độ Sáng (Mặc định) */
+      --bg-color: #f4f5f7;
       --card-bg: #ffffff;
-      --shadow-color: rgba(0, 0, 0, 0.1);
+      --text-color: #1d1d1f;
+      --sub-text-color: #6e6e73;
+      --border-color: #e5e5e5;
+      --item-bg: #f0f2f5;
+      --shadow-color: rgba(0, 0, 0, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.6);
     }
+    
+    /* Định nghĩa các biến cho chế độ Tối */
+    body.dark-mode {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #e0e0e0;
+      --sub-text-color: #a0a0a0;
+      --border-color: #2c2c2e;
+      --item-bg: #2a2a2a;
+      --shadow-color: rgba(0, 0, 0, 0.2);
+      --glass-bg: rgba(30, 30, 30, 0.6);
+      --gradient-start: #434343;
+      --gradient-end: #000000;
+    }
+    
+    /* ---- CSS Tổng quan & Reset ---- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
       font-family: 'Poppins', sans-serif;
       background-color: var(--bg-color);
@@ -33,68 +55,121 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
+
+    /* ---- Container chính ---- */
     .container {
       background: var(--card-bg);
       max-width: 900px;
       width: 100%;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px var(--shadow-color);
+      border-radius: 20px;
+      box-shadow: 0 12px 40px var(--shadow-color);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      border: 1px solid var(--border-color);
+      transition: background-color 0.4s ease, border-color 0.4s ease;
+      position: relative; /* Cho nút đổi giao diện */
     }
+
+    /* ---- Nút Đổi Giao diện ---- */
+    .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+        color: var(--text-color);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+    .theme-toggle:hover {
+        transform: scale(1.1);
+    }
+
+    /* ---- Header ---- */
     header {
-      background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: #fff; padding: 2.5rem 1.5rem; text-align: center; position: relative;
+      background-image: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+      color: #fff; padding: 4rem 1.5rem 2.5rem; text-align: center;
     }
     .avatar {
       width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-bottom: 1rem; object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 1rem; object-fit: cover;
     }
-    header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 0.5rem; }
-    header p { opacity: 0.9; }
-    nav { display: flex; background: #fff; border-bottom: 1px solid var(--light-gray); overflow-x: auto;}
+    header h1 { font-size: 2.2rem; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+    header p { opacity: 0.9; color: var(--sub-text-color-dark, #fff); }
+
+    /* ---- Navigation - Hiệu ứng Kính Mờ ---- */
+    nav { 
+      display: flex; 
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+      /* Hiệu ứng kính */
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
     nav button {
       flex: 1; padding: 1.2rem; background: transparent; border: none; cursor: pointer;
-      font-size: 1rem; font-weight: 600; color: #888; transition: all 0.3s ease; position: relative;
+      font-size: 1rem; font-weight: 600; color: var(--sub-text-color); transition: all 0.3s ease; position: relative;
       white-space: nowrap; min-width: 120px;
     }
     nav button::after {
       content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 0; height: 3px; background: var(--primary-color); transition: width 0.3s ease;
+      width: 0; height: 3px; background: var(--primary-color); transition: width 0.3s ease; border-radius: 2px;
     }
     nav button:hover { color: var(--primary-color); }
-    nav button.active { color: var(--primary-color); }
-    nav button.active::after { width: 60%; }
-    .content-wrapper { padding: 2rem; flex: 1; }
-    .tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
+    nav button.active { color: var(--text-color); font-weight: 700;}
+    nav button.active::after { width: 40%; }
+
+    /* ---- Content & Tabs ---- */
+    .content-wrapper { padding: 2.5rem; flex: 1; }
+    .tab-content { display: none; animation: fadeIn 0.6s ease; }
     .tab-content.active { display: block; }
+    h3 {
+      font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--text-color);
+      border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem;
+    }
     ul { list-style: none; padding-left: 0; }
     li {
-      display: flex; align-items: center; background: var(--light-gray); padding: 0.8rem 1.2rem;
-      border-radius: 8px; margin-bottom: 0.8rem;
+      display: flex; align-items: center; background: var(--item-bg); padding: 1rem 1.2rem;
+      border-radius: 12px; margin-bottom: 1rem; transition: all 0.3s ease; border: 1px solid var(--border-color);
     }
-    li i { margin-right: 1rem; color: var(--primary-color); font-size: 1.2rem; width: 25px; text-align: center; }
-    h3 {
-      font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--primary-color);
-      border-bottom: 2px solid var(--light-gray); padding-bottom: 0.5rem;
+    li:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 8px 20px var(--shadow-color);
     }
-    .contact-link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
-    .contact-link:hover { text-decoration: underline; }
-    footer { text-align: center; padding: 1rem; font-size: 0.9rem; color: #999; background: var(--light-gray); }
-    @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
-    @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; padding: 1rem 0.5rem; } .content-wrapper { padding: 1.5rem; } }
+    li i { margin-right: 1.2rem; color: var(--primary-color); font-size: 1.3rem; width: 25px; text-align: center; }
+    .contact-link { color: var(--text-color); text-decoration: none; font-weight: 600; }
+    .contact-link:hover { color: var(--primary-color); text-decoration: underline;}
+    
+    footer { text-align: center; padding: 1.5rem; font-size: 0.9rem; color: var(--sub-text-color); background: var(--item-bg); }
+    
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(15px);} to {opacity: 1; transform: translateY(0);} }
+    @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; padding: 1rem 0.5rem; } .content-wrapper { padding: 1.5rem; } .theme-toggle{top:15px; right: 15px;} }
   </style>
 </head>
 <body>
 
   <div class="container">
+    
+    <button id="theme-toggle" class="theme-toggle" title="Đổi giao diện">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <header>
-      <!-- SỬA THÔNG TIN ĐÂY: Thay link ảnh của bạn -->
       <img src="https://avatars.githubusercontent.com/u/56058923?v=4" alt="Avatar" class="avatar">
-      
-      <!-- SỬA THÔNG TIN ĐÂY: Thay tên của bạn -->
       <h1>LORAX</h1>
       <p id="time">Đang cập nhật thời gian...</p>
     </header>
@@ -112,7 +187,6 @@
           <ul>
             <li>
               <i class="fas fa-info-circle"></i>
-              <!-- SỬA THÔNG TIN ĐÂY: Chỉnh sửa lời giới thiệu -->
               <div>Mình là <strong>LORAX</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo, thân thiện với người dùng.</div>
             </li>
             <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">...</span></div></li>
@@ -122,7 +196,6 @@
     
         <div id="skills" class="tab-content">
           <h3>🔧 Kỹ năng & Công nghệ</h3>
-          <!-- SỬA THÔNG TIN ĐÂY: Thêm hoặc xóa các kỹ năng (thẻ li) -->
           <ul>
               <li><i class="fab fa-html5"></i>HTML5 & CSS3</li>
               <li><i class="fab fa-js-square"></i>JavaScript (ES6+)</li>
@@ -139,10 +212,8 @@
             <li>
               <i class="fas fa-building"></i>
               <div>
-                <!-- SỬA THÔNG TIN ĐÂY: Chức vụ và tên công ty -->
                 <strong>Frontend Developer</strong> tại <strong>Công ty Sáng Tạo Việt</strong>
-                <p style="font-size:0.9rem; color:#666;">
-                  <!-- SỬA THÔNG TIN ĐÂY: Mô tả công việc -->
+                <p style="font-size:0.9rem; color:var(--sub-text-color);">
                   Phát triển và duy trì giao diện người dùng cho các dự án web, đảm bảo trải nghiệm người dùng tối ưu trên mọi thiết bị.
                 </p>
               </div>
@@ -152,57 +223,69 @@
     
         <div id="contact" class="tab-content">
           <h3>🤙 Kết nối với mình</h3>
-          <!-- SỬA THÔNG TIN ĐÂY: Cập nhật các đường link liên hệ -->
           <ul>
             <li><i class="fas fa-at"></i><a href="mailto:lorax.mb66@gmail.com" class="contact-link">lorax.mb66@gmail.com</a></li>
-            <li><i class="fa-brands fa-facebook"></i><a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">Facebook</a></li>
-            <li><i class="fa-brands fa-tiktok"></i><a href="https://github.com/yourusername" target="_blank" class="contact-link">Tiktok</a></li>
+            <li><i class="fab fa-facebook"></i><a href="#" target="_blank" class="contact-link">Facebook</a></li>
+            <li><i class="fab fa-tiktok"></i><a href="#" target="_blank" class="contact-link">Tiktok</a></li>
           </ul>
         </div>
     </div>
-	
-	
-
-    <!-- SỬA THÔNG TIN ĐÂY: Thay tên ở cuối trang -->
+    
     <footer>© 2025 LORAX • All rights reserved.</footer>
   </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // ---- CÁC CHỨC NĂNG PHỤ TRỢ (vẫn hoạt động)----
+    // ---- LOGIC ĐỔI GIAO DIỆN SÁNG/TỐI ----
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const themeIcon = themeToggle.querySelector('i');
 
-    // 1. Cập nhật thời gian thực
+    // Kiểm tra xem người dùng đã chọn giao diện nào trước đó chưa
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        body.classList.add(currentTheme);
+        if (currentTheme === 'dark-mode') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        let theme = 'light-mode'; // Mặc định
+        if (body.classList.contains('dark-mode')) {
+            theme = 'dark-mode';
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+        localStorage.setItem('theme', theme); // Lưu lựa chọn
+    });
+
+
+    // ---- CÁC CHỨC NĂNG PHỤ TRỢ (vẫn hoạt động)----
     function updateTime() {
         const timeEl = document.getElementById("time");
-        if (timeEl) {
-            timeEl.textContent = new Date().toLocaleString("vi-VN", { dateStyle: 'full', timeStyle: 'medium' });
-        }
+        if (timeEl) timeEl.textContent = new Date().toLocaleString("vi-VN", { dateStyle: 'full', timeStyle: 'medium' });
     }
     setInterval(updateTime, 1000);
     updateTime();
 
-    // 2. Đếm số lượt truy cập bằng localStorage
     const visitsKey = "visitCount";
     let count = (parseInt(localStorage.getItem(visitsKey)) || 0) + 1;
     localStorage.setItem(visitsKey, count.toString());
-    const visitsEl = document.getElementById("visits");
-    if(visitsEl) visitsEl.textContent = count;
+    document.getElementById("visits").textContent = count;
     
-    // 3. Lấy địa chỉ IP của người dùng
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
-      .then(data => {
-        const ipEl = document.getElementById("ip");
-        if(ipEl) ipEl.textContent = data.ip;
-      })
-      .catch(() => {
-        const ipEl = document.getElementById("ip");
-        if(ipEl) ipEl.textContent = "Không thể lấy IP.";
-      });
+      .then(data => { document.getElementById("ip").textContent = data.ip; })
+      .catch(() => { document.getElementById("ip").textContent = "Không thể lấy IP."; });
 
-    // ---- CHỨC NĂNG CHÍNH ----
-
-    // 1. Xử lý chuyển đổi giữa các tab
+    // ---- CHỨC NĂNG CHUYỂN TAB ----
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
     tabButtons.forEach(btn => {
