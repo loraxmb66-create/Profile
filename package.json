@@ -1,0 +1,16 @@
+{
+  "name": "telegram-gemini-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot sử dụng Google AI Studio (Gemini)",
+  "main": "telegram_bot.js",
+  "scripts": {
+    "start": "node telegram_bot.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.7.0",
+    "node-telegram-bot-api": "^0.65.1"
+  }
+}
