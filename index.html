@@ -227,6 +227,199 @@
     }
 }
 /* === KẾT THÚC PHẦN CSS MỚI === */
+
+    /* --- Lucky wheel styles --- */
+    .lucky-wheel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .lucky-wheel-section p.description {
+      max-width: 520px;
+      color: var(--sub-text-color);
+      font-size: 0.95rem;
+    }
+
+    .wheel-container {
+      position: relative;
+      width: min(340px, 80vw);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #wheel-canvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      background: var(--card-bg);
+      border: 4px solid var(--border-color);
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-bottom: 28px solid var(--primary-color);
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    }
+
+    .wheel-pointer::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: -9px;
+      width: 18px;
+      height: 18px;
+      background: var(--card-bg);
+      border-radius: 50%;
+      border: 2px solid var(--primary-color);
+    }
+
+    .spin-btn {
+      padding: 0.85rem 2.5rem;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    }
+
+    .spin-btn:hover:not([disabled]) {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(0, 122, 255, 0.3);
+    }
+
+    .spin-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      box-shadow: none;
+    }
+
+    .spin-result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 120px;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      background: var(--item-bg);
+      border: 1px solid var(--border-color);
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .spin-result strong {
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+
+    .spin-result img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.15));
+    }
+
+    .probability-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .probability-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(120px, 1.2fr) 70px;
+      gap: 1rem;
+      align-items: center;
+      background: var(--item-bg);
+      border-radius: 14px;
+      padding: 0.9rem 1.1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .probability-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .probability-info img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .probability-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary-color);
+    }
+
+    .probability-value {
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
+    .probability-summary {
+      font-size: 0.95rem;
+      color: var(--sub-text-color);
+    }
+
+    .probability-summary.warning {
+      color: #e71d36;
+      font-weight: 600;
+    }
+
+    .probability-note {
+      font-size: 0.85rem;
+      color: var(--sub-text-color);
+      max-width: 520px;
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      .probability-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .probability-info {
+        justify-content: center;
+      }
+
+      .probability-value {
+        justify-self: center;
+      }
+
+      .spin-result {
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -247,8 +440,9 @@
       <button class="tab-btn active" data-tab="intro"><i class="fas fa-user-circle"></i> Giới thiệu</button>
       <button class="tab-btn" data-tab="skills"><i class="fas fa-bolt"></i> Kỹ năng</button>
       <button class="tab-btn" data-tab="projects"><i class="fas fa-project-diagram"></i> Dự án</button>
+      <button class="tab-btn" data-tab="lucky-wheel"><i class="fas fa-gift"></i> Vòng quay</button>
       <button class="tab-btn" data-tab="contact"><i class="fas fa-envelope"></i> Liên hệ</button>
-	  <button class="tab-btn" data-tab="abc"><i class="fa-solid fa-paper-plane"></i> Gửi lời nhắn</button>
+          <button class="tab-btn" data-tab="abc"><i class="fa-solid fa-paper-plane"></i> Gửi lời nhắn</button>
     </nav>
 
     <div class="content-wrapper">
@@ -314,7 +508,26 @@
             </div>
           </div>
         </div>
-    
+
+        <div id="lucky-wheel" class="tab-content">
+          <div class="fade-in-section lucky-wheel-section">
+            <h3>🎁 Vòng quay may mắn</h3>
+            <p class="description">Tùy chỉnh tỉ lệ xuất hiện của từng phần thưởng hoặc ô &ldquo;không trúng&rdquo;, sau đó nhấn quay để thử vận may của bạn. Những hình ảnh quà tặng sẽ giúp bạn dễ dàng nhận biết từng ô.</p>
+            <div class="wheel-container">
+              <canvas id="wheel-canvas" width="520" height="520"></canvas>
+              <div class="wheel-pointer"></div>
+            </div>
+            <button id="spin-btn" class="spin-btn">Quay ngay</button>
+            <div class="spin-result" id="spin-result">
+              <strong id="spin-result-text">Hãy nhấn &ldquo;Quay ngay&rdquo; để bắt đầu!</strong>
+              <img id="spin-result-image" src="https://cdn-icons-png.flaticon.com/512/744/744922.png" alt="Quà tặng" />
+            </div>
+            <div class="probability-controls" id="probability-controls"></div>
+            <div class="probability-summary" id="probability-summary">Tổng tỉ lệ: <span id="probability-total">100%</span></div>
+            <p class="probability-note">Tổng tỉ lệ có thể lớn hơn hoặc nhỏ hơn 100%. Vòng quay sẽ tự động chuẩn hóa các giá trị bạn chọn để tạo ra xác suất thực tế tương ứng.</p>
+          </div>
+        </div>
+
         <div id="contact" class="tab-content">
           <div class="fade-in-section">
             <h3>🤙 Kết nối với mình</h3>
@@ -400,6 +613,7 @@ window.addEventListener('load', () => {
             themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon');
         }
         localStorage.setItem('theme', theme);
+        window.dispatchEvent(new Event('themechange'));
     });
 
     // ---- 4. TAB SWITCHING ----
@@ -446,6 +660,314 @@ window.addEventListener('load', () => {
     if (ipEl) {
       fetch("https://api.ipify.org?format=json").then(res => res.json()).then(data => ipEl.textContent = data.ip)
         .catch(() => ipEl.textContent = "Không thể lấy IP.");
+    }
+
+    // ---- 8. LUCKY WHEEL ----
+    const wheelCanvas = document.getElementById('wheel-canvas');
+    const spinButton = document.getElementById('spin-btn');
+    const probabilityControls = document.getElementById('probability-controls');
+    const resultText = document.getElementById('spin-result-text');
+    const resultImage = document.getElementById('spin-result-image');
+    const probabilityTotal = document.getElementById('probability-total');
+    const probabilitySummary = document.getElementById('probability-summary');
+
+    if (wheelCanvas && spinButton && probabilityControls && resultText && resultImage) {
+      const ctx = wheelCanvas.getContext('2d');
+      const prizes = [
+        {
+          key: 'headphones',
+          name: 'Tai nghe Bluetooth',
+          weight: 25,
+          color: '#ff9f1c',
+          textColor: '#ffffff',
+          image: 'https://cdn-icons-png.flaticon.com/512/3209/3209333.png'
+        },
+        {
+          key: 'voucher',
+          name: 'Voucher mua sắm',
+          weight: 20,
+          color: '#2ec4b6',
+          textColor: '#ffffff',
+          image: 'https://cdn-icons-png.flaticon.com/512/942/942196.png'
+        },
+        {
+          key: 'shirt',
+          name: 'Áo thun độc quyền',
+          weight: 15,
+          color: '#e71d36',
+          textColor: '#ffffff',
+          image: 'https://cdn-icons-png.flaticon.com/512/892/892458.png'
+        },
+        {
+          key: 'mug',
+          name: 'Cốc sứ xịn xò',
+          weight: 20,
+          color: '#f46036',
+          textColor: '#ffffff',
+          image: 'https://cdn-icons-png.flaticon.com/512/1047/1047505.png'
+        },
+        {
+          key: 'sticker',
+          name: 'Bộ sticker dễ thương',
+          weight: 10,
+          color: '#9b5de5',
+          textColor: '#ffffff',
+          image: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png'
+        },
+        {
+          key: 'none',
+          name: 'Chúc bạn may mắn lần sau',
+          weight: 10,
+          color: '#ced4da',
+          textColor: '#1d1d1f',
+          image: 'https://cdn-icons-png.flaticon.com/512/3917/3917132.png'
+        }
+      ];
+
+      const prizeImages = new Map();
+      let segments = [];
+      let isSpinning = false;
+      let pendingPrize = null;
+      let latestRotation = 0;
+
+      const loadImages = () => {
+        prizes.forEach(prize => {
+          const img = new Image();
+          img.src = prize.image;
+          img.onload = () => {
+            prizeImages.set(prize.key, img);
+            drawWheel();
+          };
+          img.onerror = () => {
+            prizeImages.set(prize.key, null);
+          };
+        });
+      };
+
+      const getTotalWeight = () => prizes.reduce((sum, prize) => sum + Math.max(0, prize.weight), 0);
+
+      const updateTotalDisplay = () => {
+        const total = getTotalWeight();
+        if (probabilityTotal) {
+          probabilityTotal.textContent = `${total}%`;
+        }
+        if (probabilitySummary) {
+          probabilitySummary.classList.toggle('warning', total !== 100 && total !== 0);
+        }
+        spinButton.disabled = total === 0 || isSpinning;
+      };
+
+      const createControls = () => {
+        probabilityControls.innerHTML = '';
+        prizes.forEach((prize, index) => {
+          const row = document.createElement('div');
+          row.className = 'probability-row';
+          row.innerHTML = `
+            <div class="probability-info">
+              <img src="${prize.image}" alt="${prize.name}">
+              <span>${prize.name}</span>
+            </div>
+            <input type="range" min="0" max="100" step="5" value="${prize.weight}" data-index="${index}">
+            <span class="probability-value">${prize.weight}%</span>
+          `;
+          const range = row.querySelector('input');
+          const value = row.querySelector('.probability-value');
+          range.addEventListener('input', () => {
+            prize.weight = parseInt(range.value, 10) || 0;
+            value.textContent = `${prize.weight}%`;
+            drawWheel();
+            updateTotalDisplay();
+          });
+          probabilityControls.appendChild(row);
+        });
+        updateTotalDisplay();
+      };
+
+      const toDegrees = radians => radians * (180 / Math.PI);
+
+      const drawWrappedText = (context, text, maxWidth, lineHeight) => {
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+          const testLine = currentLine ? `${currentLine} ${word}` : word;
+          if (context.measureText(testLine).width > maxWidth && currentLine) {
+            lines.push(currentLine);
+            currentLine = word;
+          } else {
+            currentLine = testLine;
+          }
+        });
+        if (currentLine) lines.push(currentLine);
+
+        const totalHeight = (lines.length - 1) * lineHeight;
+        lines.forEach((line, idx) => {
+          context.fillText(line, 0, idx * lineHeight - totalHeight / 2);
+        });
+      };
+
+      const drawWheel = () => {
+        const total = getTotalWeight();
+        const radius = wheelCanvas.width / 2 - 8;
+        ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+        const styles = getComputedStyle(document.body);
+        const centerColor = styles.getPropertyValue('--card-bg') || '#ffffff';
+        const strokeColor = styles.getPropertyValue('--card-bg') || '#ffffff';
+        const innerBorderColor = styles.getPropertyValue('--border-color') || '#e5e5e5';
+
+        ctx.save();
+        ctx.translate(wheelCanvas.width / 2, wheelCanvas.height / 2);
+
+        if (total <= 0) {
+          segments = [];
+          ctx.beginPath();
+          ctx.arc(0, 0, radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fillStyle = '#d1d5db';
+          ctx.fill();
+          ctx.restore();
+          return;
+        }
+
+        let startAngle = -Math.PI / 2;
+        segments = [];
+
+        prizes.forEach(prize => {
+          if (prize.weight <= 0) {
+            return;
+          }
+          const sweepAngle = (prize.weight / total) * Math.PI * 2;
+          const endAngle = startAngle + sweepAngle;
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.arc(0, 0, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = prize.color;
+          ctx.fill();
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          const midAngle = startAngle + sweepAngle / 2;
+          const textRadius = radius * 0.78;
+          const imageRadius = radius * 0.5;
+          const imageSize = 70;
+          const img = prizeImages.get(prize.key);
+
+          if (img && img.complete) {
+            ctx.save();
+            ctx.rotate(midAngle);
+            ctx.translate(imageRadius, 0);
+            ctx.rotate(Math.PI / 2);
+            ctx.drawImage(img, -imageSize / 2, -imageSize / 2, imageSize, imageSize);
+            ctx.restore();
+          }
+
+          ctx.save();
+          ctx.rotate(midAngle);
+          ctx.translate(textRadius, 0);
+          ctx.rotate(Math.PI / 2);
+          ctx.fillStyle = prize.textColor;
+          ctx.font = "bold 18px 'Poppins', sans-serif";
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          drawWrappedText(ctx, prize.name, radius * 0.9, 20);
+          ctx.restore();
+
+          segments.push({
+            prize,
+            start: startAngle,
+            end: endAngle
+          });
+
+          startAngle = endAngle;
+        });
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius * 0.22, 0, Math.PI * 2);
+        ctx.fillStyle = centerColor.trim() || '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = innerBorderColor.trim() || '#e5e5e5';
+        ctx.stroke();
+
+        ctx.restore();
+      };
+
+      const getWeightedPrize = () => {
+        const total = getTotalWeight();
+        let threshold = Math.random() * total;
+        for (const prize of prizes) {
+          if (prize.weight <= 0) continue;
+          threshold -= prize.weight;
+          if (threshold <= 0) {
+            return prize;
+          }
+        }
+        return prizes[prizes.length - 1];
+      };
+
+      const finalizeSpin = () => {
+        if (!pendingPrize) return;
+        const prize = pendingPrize;
+        pendingPrize = null;
+        isSpinning = false;
+        updateTotalDisplay();
+
+        if (prize.key === 'none') {
+          resultText.textContent = 'Rất tiếc! Bạn chưa trúng thưởng lần này.';
+        } else {
+          resultText.textContent = `Chúc mừng bạn nhận được: ${prize.name}!`;
+        }
+        resultImage.src = prize.image;
+        resultImage.alt = prize.name;
+      };
+
+      spinButton.addEventListener('click', () => {
+        if (isSpinning) return;
+        const total = getTotalWeight();
+        if (total <= 0) {
+          resultText.textContent = 'Vui lòng tăng tỉ lệ cho ít nhất một phần thưởng để quay.';
+          return;
+        }
+
+        const selectedPrize = getWeightedPrize();
+        const selectedSegment = segments.find(segment => segment.prize === selectedPrize);
+        if (!selectedSegment) {
+          resultText.textContent = 'Không thể xác định phần thưởng, vui lòng thử lại.';
+          return;
+        }
+
+        const segmentStartDeg = toDegrees(selectedSegment.start);
+        const segmentEndDeg = toDegrees(selectedSegment.end);
+        const segmentSize = segmentEndDeg - segmentStartDeg;
+        const randomOffset = (Math.random() - 0.5) * segmentSize * 0.6;
+        const targetDeg = segmentStartDeg + segmentSize / 2 + randomOffset;
+        const fullSpins = 360 * 5;
+        latestRotation = fullSpins + (270 - targetDeg);
+
+        pendingPrize = selectedPrize;
+        isSpinning = true;
+        spinButton.disabled = true;
+        wheelCanvas.style.transition = 'transform 5s cubic-bezier(0.33, 1, 0.68, 1)';
+        wheelCanvas.style.transform = `rotate(${latestRotation}deg)`;
+        resultText.textContent = 'Đang quay...';
+      });
+
+      wheelCanvas.addEventListener('transitionend', () => {
+        wheelCanvas.style.transition = 'none';
+        latestRotation = latestRotation % 360;
+        wheelCanvas.style.transform = `rotate(${latestRotation}deg)`;
+        void wheelCanvas.offsetWidth; // force reflow
+        wheelCanvas.style.transition = '';
+        finalizeSpin();
+      });
+
+      loadImages();
+      createControls();
+      drawWheel();
+      window.addEventListener('themechange', drawWheel);
     }
 });
 </script>
