@@ -455,7 +455,8 @@
                 <div>Mình là <strong>LORAX</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo, thân thiện với người dùng.</div>
               </li>
               <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">...</span></div></li>
-              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">...</span></div></li>
+              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">Đang lấy...</span></div></li>
+              <li><i class="fas fa-tachometer-alt"></i><div><strong>Tốc độ mạng ước tính:</strong> <span id="net-speed">Đang đo...</span></div></li>
             </ul>
           </div>
         </div>
@@ -658,8 +659,63 @@ window.addEventListener('load', () => {
     }
     const ipEl = document.getElementById("ip");
     if (ipEl) {
-      fetch("https://api.ipify.org?format=json").then(res => res.json()).then(data => ipEl.textContent = data.ip)
+      fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => ipEl.textContent = data.ip)
         .catch(() => ipEl.textContent = "Không thể lấy IP.");
+    }
+    const speedEl = document.getElementById("net-speed");
+    const measureInternetSpeed = async () => {
+      if (!speedEl) {
+        return;
+      }
+      speedEl.textContent = "Đang đo...";
+      const testUrl = `https://speed.cloudflare.com/__down?bytes=1048576&cacheBust=${Date.now()}`;
+      try {
+        const startTime = performance.now();
+        const response = await fetch(testUrl, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Unexpected status: ${response.status}`);
+        }
+
+        let totalBytes = 0;
+        if (response.body && response.body.getReader) {
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              break;
+            }
+            if (value) {
+              totalBytes += value.length;
+            }
+          }
+        } else {
+          const buffer = await response.arrayBuffer();
+          totalBytes = buffer.byteLength;
+        }
+
+        const durationSeconds = (performance.now() - startTime) / 1000;
+        if (durationSeconds <= 0) {
+          speedEl.textContent = "Không xác định";
+          return;
+        }
+
+        const bitsPerSecond = (totalBytes * 8) / durationSeconds;
+        const mbps = bitsPerSecond / (1024 * 1024);
+
+        if (!Number.isFinite(mbps)) {
+          speedEl.textContent = "Không xác định";
+          return;
+        }
+
+        speedEl.textContent = `${mbps.toFixed(2)} Mbps`;
+      } catch (error) {
+        speedEl.textContent = "Không đo được";
+      }
+    };
+    if (speedEl) {
+      measureInternetSpeed();
     }
 
     // ---- 8. LUCKY WHEEL ----
