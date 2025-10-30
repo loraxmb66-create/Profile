@@ -33,6 +33,26 @@
       font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
       padding: 2rem; display: flex; justify-content: center; align-items: center; min-height: 100vh;
       transition: background-color 0.4s ease, color 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background: radial-gradient(circle at top left, rgba(0, 122, 255, 0.25), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(52, 199, 89, 0.2), transparent 60%);
+      transition: opacity 0.5s ease;
+    }
+
+    body.dark-mode::before,
+    body.dark-mode::after {
+      background: radial-gradient(circle at top left, rgba(173, 216, 230, 0.12), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(255, 165, 0, 0.12), transparent 65%);
     }
 
     /* ---- 1. Preloader ---- */
@@ -50,28 +70,57 @@
 
     /* ---- Container & Nút Theme ---- */
     .container {
-      background: var(--card-bg); max-width: 900px; width: 100%; border-radius: 20px;
-      box-shadow: 0 12px 40px var(--shadow-color); overflow: hidden; display: flex;
-      flex-direction: column; border: 1px solid var(--border-color);
-      transition: background-color 0.4s ease, border-color 0.4s ease; position: relative;
+      background: var(--card-bg);
+      background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+      max-width: min(960px, 100%);
+      width: 100%;
+      border-radius: 28px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+      transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     .theme-toggle {
       position: absolute; top: 20px; right: 20px; background: var(--glass-bg);
       border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%;
       cursor: pointer; display: flex; justify-content: center; align-items: center;
       font-size: 1rem; color: var(--text-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      z-index: 10; transition: all 0.3s ease;
+      z-index: 10; transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
     .theme-toggle:hover { transform: scale(1.1); }
 
     /* ---- Header & Typing Effect ---- */
     header {
-      background-image: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
-      color: #fff; padding: 4rem 1.5rem 2.5rem; text-align: center;
+      background-image: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: #fff;
+      padding: clamp(3rem, 8vw, 4.5rem) 1.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: -40% -20% auto;
+      height: 260px;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25), transparent 65%);
+      opacity: 0.6;
+      filter: blur(10px);
     }
     .avatar {
-      width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fff;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 1rem; object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+      margin-bottom: 1.2rem;
+      object-fit: cover;
     }
     header h1 { 
       font-size: 2.2rem; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
@@ -82,59 +131,247 @@
     @keyframes blink { from, to { border-color: transparent } 50% { border-color: #fff; } }
     
     /* ---- Navigation ---- */
-    nav { 
-      display: flex; border-bottom: 1px solid var(--border-color); overflow-x: auto;
-      background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      position: sticky; top: 0; z-index: 5;
+    nav {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+      background: var(--glass-bg);
+      background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      gap: 0.25rem;
+      padding: 0.25rem;
     }
     nav button {
-      flex: 1; padding: 1.2rem; background: transparent; border: none; cursor: pointer;
-      font-size: 1rem; font-weight: 600; color: var(--sub-text-color); transition: all 0.3s ease; position: relative;
-      white-space: nowrap; min-width: 120px;
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--sub-text-color);
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      min-width: 130px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
     }
     nav button::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 0; height: 3px; background: var(--primary-color); transition: width 0.3s ease; border-radius: 2px;
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.12), rgba(52, 199, 89, 0.12));
+      transform: scale(0.85);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: -1;
     }
     nav button:hover { color: var(--primary-color); }
-    nav button.active { color: var(--text-color); font-weight: 700;}
-    nav button.active::after { width: 40%; }
+    nav button:hover::after { opacity: 0.6; transform: scale(1); }
+    nav button.active {
+      color: var(--text-color);
+      font-weight: 700;
+    }
+    nav button.active::after {
+      opacity: 1;
+      transform: scale(1);
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    }
 
     /* ---- Content & Animate on Scroll ---- */
-    .content-wrapper { padding: 2.5rem; flex: 1; }
+    .content-wrapper {
+      padding: clamp(1.5rem, 4vw, 2.8rem);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
     .tab-content { display: none; animation: fadeIn 0.6s ease; }
     .tab-content.active { display: block; }
     
     .fade-in-section {
-      opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
     }
     .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
     
-    h3 { font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--text-color); border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem;}
-    ul { list-style: none; padding-left: 0; }
-    li {
-      display: flex; align-items: center; background: var(--item-bg); padding: 1rem 1.2rem;
-      border-radius: 12px; margin-bottom: 1rem; transition: all 0.3s ease; border: 1px solid var(--border-color);
+    h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1.25rem;
+      color: var(--text-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      position: relative;
     }
-    li:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px var(--shadow-color); }
-    li i { margin-right: 1.2rem; color: var(--primary-color); font-size: 1.3rem; width: 25px; text-align: center; }
+
+    h3::after {
+      content: '';
+      position: absolute;
+      bottom: -0.35rem;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    }
+    ul { list-style: none; padding-left: 0; }
+
+    ul li {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      background: var(--item-bg);
+      border: 1px solid var(--border-color);
+      padding: 0.95rem 1.2rem;
+      border-radius: 14px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      margin-bottom: 0.9rem;
+    }
+
+    ul li:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    ul li i {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      width: 26px;
+      text-align: center;
+    }
+
+    .intro-lead {
+      font-size: 1rem;
+      color: var(--sub-text-color);
+      max-width: 640px;
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+    }
+
+    .info-card {
+      background: var(--item-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.3rem 1.4rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(52, 199, 89, 0.08));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .info-card:hover::before { opacity: 1; }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.15), rgba(52, 199, 89, 0.18));
+      display: grid;
+      place-items: center;
+      color: var(--primary-color);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .info-content h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-color);
+    }
+
+    .info-content p,
+    .info-content span {
+      color: var(--sub-text-color);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
 
     /* ---- 3. Tab "Dự án" ---- */
     .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;}
     .project-card {
-      background: var(--item-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);
-      box-shadow: 0 4px 10px var(--shadow-color); transition: all 0.3s ease;
+      background: var(--item-bg);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
-    .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px var(--shadow-color); }
-    .project-card img { width: 100%; height: 180px; object-fit: cover; }
-    .project-card-content { padding: 1rem; }
-    .project-card-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-color);}
-    .project-card-content p { font-size: 0.9rem; color: var(--sub-text-color);}
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
-    .project-tags span { background-color: var(--primary-color); opacity: 0.8; color: #fff; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px;}
-    .project-links { margin-top: 1rem; }
-    .project-links a { color: var(--primary-color); text-decoration: none; font-weight: 600; margin-right: 1rem; font-size: 0.9rem;}
-    .project-links a:hover { text-decoration: underline; }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(52, 199, 89, 0.08));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.14);
+    }
+
+    .project-card:hover::after { opacity: 1; }
+
+    .project-card img { width: 100%; height: 200px; object-fit: cover; }
+    .project-card-content { padding: 1.35rem; display: flex; flex-direction: column; gap: 0.75rem; position: relative; z-index: 1; }
+    .project-card-content h4 { font-size: 1.2rem; margin: 0; color: var(--text-color);}
+    .project-card-content p { font-size: 0.95rem; color: var(--sub-text-color); line-height: 1.55;}
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.35rem 0 0.4rem; }
+    .project-tags span { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); color: #fff; font-size: 0.75rem; padding: 0.25rem 0.7rem; border-radius: 999px; letter-spacing: 0.02em;}
+    .project-links { margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .project-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: transform 0.2s ease;
+    }
+    .project-links a:hover { transform: translateX(2px); }
 
     /* ---- 5. Nút Sao chép & Tooltip ---- */
     .copy-email-wrapper { position: relative; display: inline-flex; align-items: center; }
@@ -147,8 +384,27 @@
     }
     .copy-btn.copied .tooltip { opacity: 1; }
 
+    .contact-link {
+      color: var(--text-color);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .contact-link:hover {
+      color: var(--primary-color);
+    }
+
     footer { text-align: center; padding: 1.5rem; font-size: 0.9rem; color: var(--sub-text-color); background: var(--item-bg); }
-    @media (max-width: 768px) { body { padding: 1rem; } nav button { font-size: 0.9rem; } .content-wrapper { padding: 1.5rem; } .theme-toggle{top:15px; right: 15px;} }
+    @media (max-width: 768px) {
+      body { padding: 1.2rem; }
+      .container { border-radius: 22px; }
+      nav { gap: 0.2rem; }
+      nav button { font-size: 0.9rem; min-width: 110px; }
+      .content-wrapper { padding: 1.5rem 1.2rem; gap: 2rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .theme-toggle { top: 15px; right: 15px; }
+    }
 	
 	/* === BẮT ĐẦU PHẦN CSS MỚI === */
 
@@ -257,9 +513,10 @@
       height: 100%;
       border-radius: 50%;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      transition: none;
       background: var(--card-bg);
       border: 4px solid var(--border-color);
+      will-change: transform;
     }
 
     .wheel-pointer {
@@ -298,6 +555,9 @@
       cursor: pointer;
       box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
       transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .spin-btn:hover:not([disabled]) {
@@ -343,6 +603,7 @@
       gap: 1rem;
       width: 100%;
       max-width: 520px;
+      margin-top: 0.5rem;
     }
 
     .probability-row {
@@ -388,6 +649,11 @@
     .probability-summary {
       font-size: 0.95rem;
       color: var(--sub-text-color);
+      background: var(--item-bg);
+      border: 1px solid var(--border-color);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      margin-top: 0.5rem;
     }
 
     .probability-summary.warning {
@@ -419,6 +685,24 @@
       .spin-result {
         padding: 1rem;
       }
+
+      ul li {
+        justify-content: center;
+        text-align: center;
+      }
+
+      ul li i {
+        width: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
@@ -449,15 +733,37 @@
         <div id="intro" class="tab-content active">
           <div class="fade-in-section">
             <h3>👋 Chào bạn!</h3>
-            <ul>
-              <li>
-                <i class="fas fa-info-circle"></i>
-                <div>Mình là <strong>LORAX</strong>, một người đam mê phát triển web và xây dựng các sản phẩm số sáng tạo, thân thiện với người dùng.</div>
-              </li>
-              <li><i class="fas fa-eye"></i><div><strong>Số lượt truy cập:</strong> <span id="visits">...</span></div></li>
-              <li><i class="fas fa-map-marker-alt"></i><div><strong>IP của bạn:</strong> <span id="ip">Đang lấy...</span></div></li>
-              <li><i class="fas fa-tachometer-alt"></i><div><strong>Tốc độ mạng ước tính:</strong> <span id="net-speed">Đang đo...</span></div></li>
-            </ul>
+            <p class="intro-lead">Mình là <strong>LORAX</strong> &mdash; nhà phát triển web yêu thích tạo nên những trải nghiệm số tinh gọn, mượt mà và dễ tiếp cận cho mọi người.</p>
+            <div class="info-grid">
+              <article class="info-card">
+                <div class="info-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="info-content">
+                  <h4>Thông tin nhanh</h4>
+                  <p>Tập trung xây dựng giao diện chuyển động tinh tế, tối ưu hiệu năng và hành trình người dùng.</p>
+                </div>
+              </article>
+              <article class="info-card">
+                <div class="info-icon"><i class="fas fa-eye"></i></div>
+                <div class="info-content">
+                  <h4>Lượt ghé thăm</h4>
+                  <p><span id="visits">...</span> lần truy cập trên thiết bị của bạn.</p>
+                </div>
+              </article>
+              <article class="info-card">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-content">
+                  <h4>Địa chỉ IP</h4>
+                  <p><span id="ip">Đang lấy...</span></p>
+                </div>
+              </article>
+              <article class="info-card">
+                <div class="info-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="info-content">
+                  <h4>Tốc độ kết nối</h4>
+                  <p><span id="net-speed">Đang đo...</span></p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
     
@@ -518,7 +824,7 @@
               <canvas id="wheel-canvas" width="520" height="520"></canvas>
               <div class="wheel-pointer"></div>
             </div>
-            <button id="spin-btn" class="spin-btn">Quay ngay</button>
+            <button id="spin-btn" class="spin-btn"><i class="fas fa-sync"></i><span>Quay ngay</span></button>
             <div class="spin-result" id="spin-result">
               <strong id="spin-result-text">Hãy nhấn &ldquo;Quay ngay&rdquo; để bắt đầu!</strong>
               <img id="spin-result-image" src="https://cdn-icons-png.flaticon.com/512/744/744922.png" alt="Quà tặng" />
@@ -632,7 +938,12 @@ window.addEventListener('load', () => {
     // ---- 5. ANIMATE ON SCROLL ----
     const sections = document.querySelectorAll('.fade-in-section');
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
     }, { threshold: 0.1 });
     sections.forEach(section => observer.observe(section));
     
@@ -665,15 +976,34 @@ window.addEventListener('load', () => {
         .catch(() => ipEl.textContent = "Không thể lấy IP.");
     }
     const speedEl = document.getElementById("net-speed");
+    const formatMbps = value => `${value.toFixed(2)} Mbps`;
     const measureInternetSpeed = async () => {
       if (!speedEl) {
         return;
       }
-      speedEl.textContent = "Đang đo...";
-      const testUrl = `https://speed.cloudflare.com/__down?bytes=1048576&cacheBust=${Date.now()}`;
+
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (connection?.downlink) {
+        speedEl.textContent = `${formatMbps(connection.downlink)} (ước tính hệ thống)`;
+        if (typeof connection.addEventListener === 'function') {
+          connection.addEventListener('change', () => {
+            if (connection.downlink) {
+              speedEl.textContent = `${formatMbps(connection.downlink)} (ước tính hệ thống)`;
+            }
+          });
+        }
+      } else {
+        speedEl.textContent = "Đang đo...";
+      }
+
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 5000) : null;
+      const testBytes = 512 * 1024;
+      const testUrl = `https://speed.cloudflare.com/__down?bytes=${testBytes}&cacheBust=${Date.now()}`;
+
       try {
         const startTime = performance.now();
-        const response = await fetch(testUrl, { cache: "no-store" });
+        const response = await fetch(testUrl, controller ? { cache: "no-store", signal: controller.signal } : { cache: "no-store" });
         if (!response.ok) {
           throw new Error(`Unexpected status: ${response.status}`);
         }
@@ -709,9 +1039,17 @@ window.addEventListener('load', () => {
           return;
         }
 
-        speedEl.textContent = `${mbps.toFixed(2)} Mbps`;
+        speedEl.textContent = formatMbps(mbps);
       } catch (error) {
-        speedEl.textContent = "Không đo được";
+        if (error.name === 'AbortError') {
+          speedEl.textContent = "Quá thời gian đo";
+        } else {
+          speedEl.textContent = "Không đo được";
+        }
+      } finally {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
       }
     };
     if (speedEl) {
@@ -785,6 +1123,18 @@ window.addEventListener('load', () => {
       let isSpinning = false;
       let pendingPrize = null;
       let latestRotation = 0;
+      let drawQueued = false;
+
+      const scheduleDraw = () => {
+        if (drawQueued) {
+          return;
+        }
+        drawQueued = true;
+        requestAnimationFrame(() => {
+          drawQueued = false;
+          drawWheel();
+        });
+      };
 
       const loadImages = () => {
         prizes.forEach(prize => {
@@ -792,7 +1142,7 @@ window.addEventListener('load', () => {
           img.src = prize.image;
           img.onload = () => {
             prizeImages.set(prize.key, img);
-            drawWheel();
+            scheduleDraw();
           };
           img.onerror = () => {
             prizeImages.set(prize.key, null);
@@ -815,25 +1165,42 @@ window.addEventListener('load', () => {
 
       const createControls = () => {
         probabilityControls.innerHTML = '';
-        prizes.forEach((prize, index) => {
+        prizes.forEach(prize => {
           const row = document.createElement('div');
           row.className = 'probability-row';
-          row.innerHTML = `
-            <div class="probability-info">
-              <img src="${prize.image}" alt="${prize.name}">
-              <span>${prize.name}</span>
-            </div>
-            <input type="range" min="0" max="100" step="5" value="${prize.weight}" data-index="${index}">
-            <span class="probability-value">${prize.weight}%</span>
-          `;
-          const range = row.querySelector('input');
-          const value = row.querySelector('.probability-value');
-          range.addEventListener('input', () => {
-            prize.weight = parseInt(range.value, 10) || 0;
-            value.textContent = `${prize.weight}%`;
-            drawWheel();
+
+          const info = document.createElement('div');
+          info.className = 'probability-info';
+
+          const thumb = document.createElement('img');
+          thumb.src = prize.image;
+          thumb.alt = prize.name;
+
+          const label = document.createElement('span');
+          label.textContent = prize.name;
+
+          info.appendChild(thumb);
+          info.appendChild(label);
+
+          const slider = document.createElement('input');
+          slider.type = 'range';
+          slider.min = '0';
+          slider.max = '100';
+          slider.step = '5';
+          slider.value = prize.weight.toString();
+
+          const valueDisplay = document.createElement('span');
+          valueDisplay.className = 'probability-value';
+          valueDisplay.textContent = `${prize.weight}%`;
+
+          slider.addEventListener('input', () => {
+            prize.weight = parseInt(slider.value, 10) || 0;
+            valueDisplay.textContent = `${prize.weight}%`;
+            scheduleDraw();
             updateTotalDisplay();
           });
+
+          row.append(info, slider, valueDisplay);
           probabilityControls.appendChild(row);
         });
         updateTotalDisplay();
@@ -864,21 +1231,39 @@ window.addEventListener('load', () => {
 
       const drawWheel = () => {
         const total = getTotalWeight();
-        const radius = wheelCanvas.width / 2 - 8;
-        ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
-        const styles = getComputedStyle(document.body);
-        const centerColor = styles.getPropertyValue('--card-bg') || '#ffffff';
-        const strokeColor = styles.getPropertyValue('--card-bg') || '#ffffff';
-        const innerBorderColor = styles.getPropertyValue('--border-color') || '#e5e5e5';
+        const width = wheelCanvas.width;
+        const height = wheelCanvas.height;
+        const radius = Math.min(width, height) / 2 - 10;
+        ctx.clearRect(0, 0, width, height);
+
+        const styles = getComputedStyle(document.documentElement);
+        const gradientStart = styles.getPropertyValue('--gradient-start').trim() || '#6dd5ed';
+        const gradientEnd = styles.getPropertyValue('--gradient-end').trim() || '#2193b0';
+        const cardColor = styles.getPropertyValue('--card-bg').trim() || '#ffffff';
+        const borderColor = styles.getPropertyValue('--border-color').trim() || '#e5e5e5';
+        const centerFill = styles.getPropertyValue('--item-bg').trim() || '#f0f2f5';
 
         ctx.save();
-        ctx.translate(wheelCanvas.width / 2, wheelCanvas.height / 2);
+        ctx.translate(width / 2, height / 2);
+
+        const haloGradient = ctx.createLinearGradient(-radius, -radius, radius, radius);
+        haloGradient.addColorStop(0, gradientStart);
+        haloGradient.addColorStop(1, gradientEnd);
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius + 6, 0, Math.PI * 2);
+        ctx.fillStyle = haloGradient;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius + 3, 0, Math.PI * 2);
+        ctx.fillStyle = cardColor;
+        ctx.fill();
 
         if (total <= 0) {
           segments = [];
           ctx.beginPath();
           ctx.arc(0, 0, radius, 0, Math.PI * 2);
-          ctx.closePath();
           ctx.fillStyle = '#d1d5db';
           ctx.fill();
           ctx.restore();
@@ -901,8 +1286,8 @@ window.addEventListener('load', () => {
           ctx.closePath();
           ctx.fillStyle = prize.color;
           ctx.fill();
-          ctx.strokeStyle = strokeColor;
-          ctx.lineWidth = 3;
+          ctx.strokeStyle = borderColor;
+          ctx.lineWidth = 2.5;
           ctx.stroke();
 
           const midAngle = startAngle + sweepAngle / 2;
@@ -942,10 +1327,10 @@ window.addEventListener('load', () => {
 
         ctx.beginPath();
         ctx.arc(0, 0, radius * 0.22, 0, Math.PI * 2);
-        ctx.fillStyle = centerColor.trim() || '#ffffff';
+        ctx.fillStyle = centerFill;
         ctx.fill();
         ctx.lineWidth = 2;
-        ctx.strokeStyle = innerBorderColor.trim() || '#e5e5e5';
+        ctx.strokeStyle = borderColor;
         ctx.stroke();
 
         ctx.restore();
@@ -1022,8 +1407,8 @@ window.addEventListener('load', () => {
 
       loadImages();
       createControls();
-      drawWheel();
-      window.addEventListener('themechange', drawWheel);
+      scheduleDraw();
+      window.addEventListener('themechange', scheduleDraw);
     }
 });
 </script>
